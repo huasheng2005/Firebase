@@ -1,0 +1,31 @@
+<div style="padding: 2rem;">
+  <h1>{{ title() }}</h1>
+
+  <input [(ngModel)]="inputTitle" placeholder="New Task">
+  <button (click)="handleCreate()">Create</button>
+
+  <hr>
+
+  <h2>Tasks List</h2>
+  <ul>
+    <li *ngFor="let item of todos" style="margin-bottom: 1rem;">
+
+      <ng-container *ngIf="editingId === item.id; else viewMode">
+        <input [(ngModel)]="editTitle" style="padding: 4px;">
+        <button (click)="saveEdit(item)" style="color: green;">Save Update</button>
+        <button (click)="cancelEdit()">cancel</button>
+      </ng-container>
+
+      <ng-template #viewMode>
+        <span style="display: inline-block; min-width: 150px;">{{ item.title }}</span>
+        <button (click)="startEdit(item)">Edit</button>
+        <button (click)="handleDelete(item.id)" style="color: red; margin-left: 10px;">Delete</button>
+        <button (click)="toggleStatus(item)" [style.background-color]="item.completed ? '#4CAF50' : '#FF9800'"
+          style="color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px; margin-right: 10px;">
+          {{ item.completed ? 'Completed' : 'Incomplete' }}
+        </button>
+      </ng-template>
+
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,27 @@
+<div style="padding: 20px;">
+  <h2>{{ isEditMode ? 'Edit Project' : 'New Project' }}</h2>
+  
+  <form (ngSubmit)="onSubmit()">
+    <div style="margin-bottom: 10px;">
+      <label>Name:</label><br>
+      <input [(ngModel)]="project.name" name="name" required style="width: 300px; padding: 5px;">
+    </div>
+    
+    <div style="margin-bottom: 20px;">
+      <label>Description:</label><br>
+      <textarea [(ngModel)]="project.description" name="description" rows="4" style="width: 300px; padding: 5px;"></textarea>
+    </div>
+
+    <button type="submit" style="padding: 10px 20px; background: green; color: white; border: none;">
+      Submit
+    </button>
+
+    <button *ngIf="isEditMode" type="button" (click)="onDelete()" style="margin-left: 10px; padding: 10px 20px; background: red; color: white; border: none;">
+      Delete
+    </button>
+
+    <button type="button" [routerLink]="['/projects']" style="margin-left: 10px; padding: 10px 20px;">
+      Back
+    </button>
+  </form>
+</div>
