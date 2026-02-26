@@ -1,0 +1,12 @@
+{
+  "name": "firebase-server",
+  "version": "1.0.0",
+  "description": "A simple Firebase server for Luo Siong",
+  "license": "ISC",
+  "author": "LWX",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  }
+}

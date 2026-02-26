@@ -1,0 +1,36 @@
+services:
+  firebase:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: firebase-emulators
+    working_dir: /workspace
+    ports:
+      - "4000:4000" # Emulator UI
+      - "4400:4400" # Emulator Hub
+      - "4500:4500" # Emulator logging (sometimes used)
+      - "5001:5001" # Functions
+      - "8080:8080" # Firestore
+      - "9099:9099" # Auth
+    environment:
+      - FIREBASE_PROJECT=todolist-example-firebase
+      - TZ=Asia/Kuala_Lumpur
+      - GOOGLE_APPLICATION_CREDENTIALS=/secrets/todolist-example-firebase-firebase-adminsdk-fbsvc-8bfe43d529.json
+    volumes:
+      - ./:/workspace
+      # prevent host bind-mount from nuking container node_modules
+      - firebase_functions_node_modules:/workspace/functions/node_modules
+      # optional: persist emulator state across restarts
+      - firebase_emulator_data:/workspace/.emulator-data
+      - ./secrets/todolist-example-firebase-firebase-adminsdk-fbsvc-8bfe43d529.json:/secrets/todolist-example-firebase-firebase-adminsdk-fbsvc-8bfe43d529.json:ro
+    command: >
+      bash -lc "
+        cd functions &&
+        npm install &&
+        npm run build &&
+        cd /workspace &&
+        firebase emulators:start --only functions,firestore,auth --project $${FIREBASE_PROJECT}
+      "
+volumes:
+  firebase_functions_node_modules:
+  firebase_emulator_data:
